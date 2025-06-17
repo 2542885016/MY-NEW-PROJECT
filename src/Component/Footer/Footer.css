@@ -1,0 +1,126 @@
+footer {
+    text-align: left;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    animation: fadeIn 1s ease-in-out;
+    width: 100%;
+    padding: 0.5rem;
+    position: fixed;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* 加入过渡效果 */
+    z-index: 500;
+    /* 确保它覆盖在其他内容上 */
+}
+
+/* 滚动后悬浮效果 */
+footer.sticky {
+    position: fixed;
+    transform: translateY(0);
+    /* 滚动后恢复到顶部 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* 加入过渡效果 */
+}
+
+/* 使页面内容不遮挡footer，给上方内容留足空间 */
+body {
+    padding-bottom: 100px;
+    /* 让内容有足够空间避免遮挡 */
+}
+
+footer nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: flex-start;
+    padding: 0.4rem;
+    gap: 3rem;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 1.2rem;
+
+}
+
+footer nav ul li {
+    display: inline-block;
+
+}
+
+footer nav ul li a {
+    width: 100%;
+    display: block;
+    text-align: left;
+    color: #333;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+    /* 加入平滑过渡效果 */
+}
+
+
+
+footer nav ul li a:hover {
+    color: rgb(11, 96, 231);
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+    transform: scale(1.1);
+
+}
+
+footer nav ul li a:active {
+    color: rgba(199, 6, 6, 0.9);
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+footer nav ul li a.active {
+    color: rgb(11, 96, 231);
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+    transform: scale(1.1);
+    /* 加入平滑过渡效果 */
+}
+
+@media screen and (max-width: 768px) {
+    footer nav ul {
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    footer nav ul li a {
+        font-size: 1rem;
+    }
+
+    footer {
+        padding: 0.5rem 1rem;
+        /* 增加内边距，确保内容不贴边 */
+    }
+
+}
+
+@media screen and (max-width: 480px) {
+    footer nav ul {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    footer nav ul li a {
+        font-size: 0.9rem;
+    }
+
+    footer {
+        padding: 0.5rem 0.5rem;
+        /* 增加内边距，确保内容不贴边 */
+    }
+
+}

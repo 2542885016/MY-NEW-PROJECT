@@ -1,0 +1,54 @@
+.Siderbar-btn {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 1000;
+    padding: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease, transform 0.3s ease-in-out;
+}
+
+.Siderbar-btn.open {
+    transform: rotate(90deg);
+    z-index: 5000;
+}
+
+.MuiListItem-root {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.MuiListItem-root:hover {
+    background-color: rgba(255, 255, 255, 0.066);
+    transform: scale(1.05);
+}
+
+.sidebar-info {
+    padding: 1rem;
+    color: #fff;
+    font-size: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    animation: slide-in 0.6s ease-out;
+}
+
+
+@keyframes fadeSliderIn {
+    from {
+        opacity: 0;
+        transform: translateX(30%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.sidebar-animated-enter {
+    animation: fadeSlideIn 0.5s ease-out;
+}
