@@ -1,6 +1,6 @@
 import './Footer.css'
 import { useState, useEffect } from 'react'
-import AnchorLink from '../AnchorLink/AnchorLink'
+
 
 
 export default function Footer() {
