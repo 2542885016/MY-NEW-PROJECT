@@ -19,15 +19,6 @@ const SiderbarInfor = () => {
         }
 
         const updateCountdown = () => {
-            /* to iterate
-            const now = new Date()
-            const midnight = new Date()
-            midnight.setHours(24, 0, 0, 0)
-
-            const diff = midnight - now
-            const hours = Math.floor(diff / (1000 * 60 * 60))
-            const minutes = Math.floor(hours / (1000 * 60 * 60) / (1000 * 60))
-            */
             setCountdownText(countdown())
         }
 

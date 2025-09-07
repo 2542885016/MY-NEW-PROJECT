@@ -3,6 +3,7 @@ import { getWeatherData } from '../../utils/storage.js'
 import './Weather.css'
 
 
+
 const weatherIcons = {
     0: '☀️', 1: '🌤️', 2: '⛅', 3: '☁️',
     45: '🌫️', 48: '🌫️', 51: '🌦️', 61: '🌧️',
@@ -11,39 +12,43 @@ const weatherIcons = {
 
 export default function Weather() {
     const [weather, setWeather] = useState(null)
-    const [error, setError] = useState('')
+    const [error, setError] = useState(null)
+    const [isloading, setIsLoading] = useState(true)
     const [lang, setLang] = useState('zh');
 
 
-
+//获取天气数据 & 增加loading状态 & 卸载组件后取消req防止内存泄露
 
     useEffect(() => {
+        let mounted = true
+
         async function fetchData() {
+            setIsLoading(true)//开始加载
             try {
                 const data = await getWeatherData()
-                setWeather(data)
-
-
-
+                if(mounted){
+                    setWeather(data)
+                    setError(null)//成功时清除错误
+                }
+                
             } catch (err) {
-                setError('get weather was failed')
-                console.log(err)
+                if(mounted) setError('failed')
+                console.error(err)
+            } finally{
+                if(mounted) setIsLoading(false)//加载结束
             }
-        }
-
+    }
         fetchData()
+
+        return () => { mounted = false } //组建卸载时取消更新
     }, [])
 
     if (error) return <div className="weather"> ❌  {error}</div>
-    if (!weather) return <div className="weather">Loading weather...</div>
-    /*
-        const formatTime = (timeStr) => {
-            const date = new Date(timeStr);
-            return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes()
-                .toString()
-                .padStart(2, '0')}`;
-        };
-    */
+    if (isloading) return <div className="weather">Loading weather...</div>
+
+
+
+
     const labels = {
         zh: {
             location: '📍 位置',
@@ -84,7 +89,7 @@ export default function Weather() {
                         <p>{labels[lang].humidity} : {weather.humidity}%</p>
                         <p>{labels[lang].wind} : {weather.wind} km/h</p>
                         <p>{labels[lang].direction} :
-                            <span style={{ display: 'inline-block', transform: `rotate (${weather.windDirection} deg)` }}></span>
+                            <span style={{ display: 'inline-block', transform: `rotate(${rotateDeg}deg)` }}></span>
                             {weather.windDirection}°
                         </p>
                         <p>{labels[lang].time} : {new Date(weather.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
@@ -99,5 +104,3 @@ export default function Weather() {
     )
 
 }
-
-

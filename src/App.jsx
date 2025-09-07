@@ -18,7 +18,7 @@ import KnowledgeCard from './Component/Cards/KnowledgeCard'
 import MessageCard from './Component/Cards/Messageboard'
 
 
-import { getTasks, saveTasks, CheckMidnightReset, getDarkMode, setDarkMode } from './utils/storage'
+import { getTasks, saveTasks, CheckMidnightReset} from './utils/storage'
 
 import SiderBar from './Component/Siderbar/Siderbar'
 
@@ -38,7 +38,7 @@ import './index.css'
 
 export default function App() {
   const [tasks, setTasks] = useState([])
-  const [darkMode, setDarkModeState] = useState(getDarkMode())
+
 
   useEffect(() => {
 
@@ -71,14 +71,7 @@ export default function App() {
       setTasks(storedTasks)
     }
 
-    // console.log("🎨 当前是否是暗黑模式：", darkMode)
-
-    // ✅ 恢复夜间模式
-    document.body.classList.toggle('dark', darkMode)
-  }, [darkMode])
-
-
-
+  }, [])
 
 
   // 当任务列表更新时，保存到 localStorage
@@ -89,22 +82,15 @@ export default function App() {
     saveTasks(tasks)
   }, [tasks])
 
-  // 切换夜间模式
-  const toggleDark = () => {
-    document.body.classList.toggle('dark')
-
-    const isDark = document.body.classList.contains('dark')
-    setDarkModeState(isDark)
-    setDarkMode(isDark)// 更新 localStorage
-  }
+  
 
   return (
     <>
-      <MainContents></MainContents>
-      <Footer></Footer>
+      <MainContents/>
+      <Footer/>
 
       <div id="incre">
-        <Header></Header>
+        <Header/>
       </div>
 
 
@@ -117,23 +103,14 @@ export default function App() {
         </div>
 
         <section id="to-do-list" className='section'>
-          <TaskInput setTasks={setTasks} ></TaskInput>
-          <TaskList setTasks={setTasks} tasks={tasks}></TaskList>
-
-
-          <button id="toggle-dark"
-            onClick={toggleDark} style={{ margin: '1rem' }}  >
-            🌙 Toggle Night Mode
-          </button>
+          <TaskInput setTasks={setTasks} />
+          <TaskList setTasks={setTasks} tasks={tasks}/>
 
           {/* 添加 Celebrate 按钮 */}
           <button onClick={showConfetti}>Celebrate 🎉</button>
         </section>
 
-
-        <Weather></Weather>
-
-
+        <Weather/>
 
       </main>
 
@@ -146,21 +123,18 @@ export default function App() {
           <h1 className="text-2xl font-bold text-center mb-6">
             my recommend something
           </h1>
-          <VideoList></VideoList></section>
+          <VideoList/>
+        </section>
       </div>
-
 
       <div className="blog">
         <Router>
-          <BlogPage></BlogPage>
+          <BlogPage/>
         </Router>
       </div>
 
-
       <div className="siderbar">
-        <SiderBar>
-          <h2>Welcome to my website</h2>
-        </SiderBar>
+        <SiderBar/>
       </div>
 
     </>

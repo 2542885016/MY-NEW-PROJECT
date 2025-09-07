@@ -115,20 +115,3 @@ const Siderbar = () => {
 
 export default Siderbar
 
-
-
-
-/* to iterate over the list of items
-                           <ListItemButton>
-                               <ListItemText primary='📌 Daily one sentence'></ListItemText>
-                           </ListItemButton>
-                           <ListItemButton>
-                               <ListItemText primary='🧠 Knowledge'></ListItemText>
-                           </ListItemButton>
-                           <ListItemButton>
-                               <ListItemText primary='💬 Message board'></ListItemText>
-                           </ListItemButton>
-                           <ListItemButton>
-                               <ListItemText primary='📝 ToDo list'></ListItemText>
-                           </ListItemButton>
-                       */

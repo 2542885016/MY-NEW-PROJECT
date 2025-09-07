@@ -14,7 +14,6 @@ main {
 }
 
 
-
 .input-container {
     display: flex;
     align-items: center;
@@ -114,9 +113,6 @@ main {
 
 
 
-
-
-
 /* Task-List style */
 #task-list li {
     display: flex;
@@ -154,10 +150,6 @@ main {
 
 
 
-
-
-
-
 /* DeleteButton Style */
 .delete-btn {
     color: #d00;
@@ -171,54 +163,10 @@ main {
 }
 
 
-
-
-
 /* Completed Tasks Style */
 .completed .task-text {
     text-decoration: line-through;
     color: #666;
-}
-
-
-
-
-/* Night Mode */
-body.dark {
-    background-color: #121212;
-    color: #e0e0e0;
-}
-
-body.dark #to-do-list {
-    background-color: #1e1e1e;
-
-}
-
-body.dark #task-list li {
-    background-color: #2a2a2a;
-    border-color: #444;
-}
-
-body.dark .input-container input,
-body.dark .input-container button {
-    background-color: #333;
-    color: #fff;
-    border-color: #555;
-}
-
-
-/* 🌙 Toggle Night Mode Button */
-#toggle-dark {
-    background-color: #1451b9;
-    border: none;
-    padding: 0.4rem 0.6rem;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-#toggle-dark:hover {
-    background-color: #0d9d38;
 }
 
 
