@@ -47,7 +47,7 @@ main {
 
 /* 按钮样式 */
 .input-container button {
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 0.8rem;
     background-color: #040ec9;
     color: white;
     border: none;
@@ -62,7 +62,7 @@ main {
 .input-container button:hover {
     background-color: #45a049;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
+    transform: translateY(+5px);
     /* 按钮稍微上浮 */
 }
 
@@ -111,14 +111,12 @@ main {
     /* 动画变慢，持续时间调整为 0.6s */
 }
 
-
-
 /* Task-List style */
 #task-list li {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 1.6rem;
+    padding: 0.6rem 1.6rem;
     margin-bottom: 1rem;
     background-color: #f9f9f9;
     border-radius: 10px;
@@ -148,12 +146,11 @@ main {
     /* 增大悬停时的勾选框 */
 }
 
-
-
 /* DeleteButton Style */
 .delete-btn {
     color: #d00;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
+    padding-top: 0.6rem;
     cursor: pointer;
     transition: transform 0.2s ease;
 }
@@ -162,13 +159,11 @@ main {
     transform: rotate(-10deg) scale(1.2);
 }
 
-
 /* Completed Tasks Style */
 .completed .task-text {
     text-decoration: line-through;
-    color: #666;
+    color: #131212;
 }
-
 
 /* 🎉 Task Completion Celebration Animation */
 .completed .task-text::after {

@@ -1,7 +1,6 @@
 /* src/styles/widgets.css */
 
 .widget-card {
-
     background: linear-gradient(135deg, #f9fafb, #e5e7eb);
     border: 1px solid rgba(0, 0, 0, 0.08);
     border-radius: 1rem;
@@ -12,13 +11,12 @@
     background: var(--card-bg, white);
     margin: 1rem 1rem;
     width: 85%;
-    max-width: 32rem;
+    max-width: 21rem;
     display: flex;
     flex-direction: column;
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: normal;
-
 }
 
 .widget-content p,

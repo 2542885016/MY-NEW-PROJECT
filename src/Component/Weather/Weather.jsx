@@ -1,106 +1,99 @@
+// src/components/weather/Weather.jsx
 import { useEffect, useState } from 'react'
-import { getWeatherData } from '../../utils/storage.js'
+import { useTranslation } from 'react-i18next'
+import { WeatherCard, WeatherDetail, WeatherIcon } from '../index' // 一次性导入
 import './Weather.css'
 
-
-
-const weatherIcons = {
-    0: '☀️', 1: '🌤️', 2: '⛅', 3: '☁️',
-    45: '🌫️', 48: '🌫️', 51: '🌦️', 61: '🌧️',
-    71: '❄️', 95: '⛈️', 96: '⛈️', 99: '⛈️'
-};
-
 export default function Weather() {
-    const [weather, setWeather] = useState(null)
-    const [error, setError] = useState(null)
-    const [isloading, setIsLoading] = useState(true)
-    const [lang, setLang] = useState('zh');
+  const [allWeather, setAllWeather] = useState([])//所有
+  const [currentWeather, setCurrentWeather] = useState(null)//当前 
+  const [error, setError] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const { t, i18n } = useTranslation()
+
+  const toggleLang = () => {
+    i18n.changeLanguage(i18n.language === 'zh' ? 'en' : 'zh')
+  }
 
 
-//获取天气数据 & 增加loading状态 & 卸载组件后取消req防止内存泄露
+  useEffect(() => {
+    let mounted = true
 
-    useEffect(() => {
-        let mounted = true
+    async function fetchData() {
+      setIsLoading(true)
+      try {
+        //sametime fetch
+        const [weatherData, ipData] = await Promise.all([
+          fetch('http://localhost:3000/weather').then(r => r.json()), 
+          fetch('https://ipapi.co/json/').then(r => r.json())
+        ])
 
-        async function fetchData() {
-            setIsLoading(true)//开始加载
-            try {
-                const data = await getWeatherData()
-                if(mounted){
-                    setWeather(data)
-                    setError(null)//成功时清除错误
-                }
-                
-            } catch (err) {
-                if(mounted) setError('failed')
-                console.error(err)
-            } finally{
-                if(mounted) setIsLoading(false)//加载结束
-            }
+        if(!mounted) return
+        
+        //get ip
+        setAllWeather(weatherData)
+        const ipCity = ipData.city
+
+        //show the address of ip city
+        const defaultWeather = weatherData.find(w => w.city.toLowerCase() === ipCity?.toLowerCase) || weatherData[0]
+        setCurrentWeather(defaultWeather)
+        setError(null)
+      } catch (err) {
+        console.error(err)
+        if(mounted) setError('Failed to load weather')
+      } finally{
+        if(mounted) setIsLoading(false)
+      }
     }
-        fetchData()
 
-        return () => { mounted = false } //组建卸载时取消更新
-    }, [])
+    fetchData()
 
-    if (error) return <div className="weather"> ❌  {error}</div>
-    if (isloading) return <div className="weather">Loading weather...</div>
+    return () => { mounted = false }
+  }, [])
 
+  //switch city
+  const handleCityChange = (city) => {
+    const selected = allWeather.find(w => w.city.toLowerCase() === city.toLowerCase())
+    if(selected){
+      setCurrentWeather(selected)
+    }
+  }
 
+  if (isLoading) return <div className="loading">🌤️ {t('loading')}</div>
+  if (error) return <div className="error">❌ {error}</div>
+  if (!currentWeather) return <div className="error">{t('noData') || 'No weather data'}</div>
 
+  const rotateDeg = currentWeather.windDirection || 0
 
-    const labels = {
-        zh: {
-            location: '📍 位置',
-            temp: '🌡️ 温度',
-            feelsLike: '🤔 体感',
-            humidity: '💧 湿度',
-            wind: '💨 风速',
-            direction: '🧭 风向',
-            time: '🕒 时间',
-        },
-        en: {
-            location: '📍 Location',
-            temp: '🌡️ Temp',
-            feelsLike: '🤔 Feels Like',
-            humidity: '💧 Humidity',
-            wind: '💨 Wind',
-            direction: '🧭 Direction',
-            time: '🕒 Time',
-        },
-    };
-
-    const rotateDeg = weather?.windDirection || 0;
-
-    return (
-        <>
-
-            <div id='code' className="weather-container">
-                {error && <p className="error">{error}</p>}
-
-                {!weather ? (
-                    <p className="loading">Loading weather...</p>
-                ) : (
-                    <div className="weather-card slide-in">
-                        <div className="icon">{weatherIcons[weather.weatherCode] || '❓'}</div>
-                        <p>{labels[lang].location} : {weather.city}</p>
-                        <p>{labels[lang].temp} : {weather.temperature}°C</p>
-                        <p>{labels[lang].feelsLike} : {weather.feelsLike}°C</p>
-                        <p>{labels[lang].humidity} : {weather.humidity}%</p>
-                        <p>{labels[lang].wind} : {weather.wind} km/h</p>
-                        <p>{labels[lang].direction} :
-                            <span style={{ display: 'inline-block', transform: `rotate(${rotateDeg}deg)` }}></span>
-                            {weather.windDirection}°
-                        </p>
-                        <p>{labels[lang].time} : {new Date(weather.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-                        <button className="lang-toggle" onClick={() => setLang(lang === 'zh' ? 'en' : 'zh')}>
-                            🌐 {lang === 'zh' ? 'Switch to English' : '切换为中文'}
-                        </button>
-                    </div>
-                )}
-            </div>
-
-        </>
-    )
-
+  return (
+    <WeatherCard>
+      <WeatherIcon code={currentWeather.weatherCode} />
+      <div className="weather-content">
+        <select value={currentWeather.city ?? ''} onChange={e => handleCityChange(e.target.value)}>
+          {allWeather.map(w =>(
+           <option key={w.id || w.city} value={w.city}>{w.city}</option> 
+          ))}
+        </select>
+        <WeatherDetail label={t('location')} value={currentWeather.city} />
+        <WeatherDetail label={t('temp')} value={`${currentWeather.temperature}°C`} />
+        <WeatherDetail label={t('feelsLike')} value={`${currentWeather.feelsLike}°C`} />
+        <WeatherDetail label={t('humidity')} value={`${currentWeather.humidity}%`} />
+        <WeatherDetail
+          label={t('wind')}
+          value={`${currentWeather.wind} km/h`}
+        />
+        <WeatherDetail label={t('direction')} value={`${rotateDeg}°`} />
+        <WeatherDetail
+          label={t('time')}
+          value={new Date(currentWeather.time).toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+          })}
+        />
+        <button className="lang-toggle" onClick={toggleLang}>
+          {t('switch')}
+        </button>
+      </div>
+    </WeatherCard>
+  )
 }

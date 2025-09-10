@@ -12,7 +12,6 @@ const InfItem = ({ label, value }) => {
 }
 
 export default function Header() {
-    console.log("图片路径：", "/yedou.jpg");
 
     return (
         <>
