@@ -29,13 +29,23 @@ export default function Weather() {
         ])
 
         if(!mounted) return
+
+        const mappedWeatherData = weatherData.map(w => ({
+          ...w, 
+          feelsLike: w.feels_like, 
+          weatherCode: w.weather_code, 
+          windDirection: w.wind_direction
+        }))
         
         //get ip
-        setAllWeather(weatherData)
+        setAllWeather(mappedWeatherData)
+        
         const ipCity = ipData.city
 
         //show the address of ip city
-        const defaultWeather = weatherData.find(w => w.city.toLowerCase() === ipCity?.toLowerCase) || weatherData[0]
+        const defaultWeather = mappedWeatherData.find(
+          w => w.city.toLowerCase() === ipCity?.toLowerCase()
+         ) || mappedWeatherData[0]
         setCurrentWeather(defaultWeather)
         setError(null)
       } catch (err) {
